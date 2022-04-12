@@ -18,7 +18,7 @@ python3 -m pip install virtualenv
 Create a virtual environment in the `fastapi_file_upload` directory
 
 ```
-python3 -m venv
+python3 -m venv .
 ```
 
 Start the `uvicorn` webserver a.k.a. the API
