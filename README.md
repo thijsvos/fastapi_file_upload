@@ -1,4 +1,4 @@
-# Simple file upload using FastAPI
+# Simple file upload using [FastAPI](https://fastapi.tiangolo.com/)
 
 ## Installation
 
