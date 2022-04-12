@@ -1,0 +1,11 @@
+$uri = "http://127.0.0.1:8085/files"
+$fileName = "C:\Temp\test.zip"
+$base64string = [Convert]::ToBase64String([IO.File]::ReadAllBytes($FileName))
+$Authorization = "Bearer DUMMY-API-KEY"
+
+$JSON = @{
+"base64_string"= $base64string
+"file_name"= $fileName
+} | ConvertTo-Json
+
+Invoke-RestMethod -Method Post -Uri $uri -Headers @{'Authorization'=$Authorization} -Body $JSON -ContentType 'application/json'
