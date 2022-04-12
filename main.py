@@ -18,6 +18,7 @@ AUTH_TOKEN = "DUMMY-API-KEY"
 engine = create_engine(SQLITE_CONN_STRING, echo=True)
 session = Session(bind=engine)
 
+# Remove docs_url attribute to enable Swagger documentation on {url}/docs
 app = FastAPI(docs_url=None)
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
