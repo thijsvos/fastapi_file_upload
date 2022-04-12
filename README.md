@@ -19,6 +19,7 @@ Create a virtual environment in the `fastapi_file_upload` directory
 ```
 python3 -m venv fastapivenv
 source ./fastapivenv/bin/activate
+python -m pip install -r requirements.txt
 ```
 
 Start the `uvicorn` webserver a.k.a. the API
