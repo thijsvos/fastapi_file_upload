@@ -9,6 +9,7 @@ import uvicorn
 import aiofiles
 import os
 import pathlib
+import ntpath
 
 
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -18,8 +19,8 @@ AUTH_TOKEN = "DUMMY-API-KEY"
 engine = create_engine(SQLITE_CONN_STRING, echo=True)
 session = Session(bind=engine)
 
-# Remove docs_url attribute to enable Swagger documentation on {url}/docs
-app = FastAPI(docs_url=None)
+# Add FastAPI(docs_url=None) attribute to disable Swagger documentation on {url}/docs
+app = FastAPI()
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
@@ -49,8 +50,8 @@ async def write_file_to_database(file: FileModel):
 
 
 async def write_file_to_disk(file: FileModel):
-    filename = pathlib.Path(file.file_name).name
-    async with aiofiles.open(f"{BASE_DIR}\\results\\{filename}", 'wb') as out_file:
+    filename = ntpath.basename(file.file_name)
+    async with aiofiles.open(f"{BASE_DIR}/results/{filename}", 'wb') as out_file:
         content = base64.b64decode(file.base64_string)
         await out_file.write(content)
 
