@@ -52,7 +52,7 @@ async def write_file_to_database(file: FileModel):
 
 async def write_file_to_disk(file: FileModel):
     filename = ntpath.basename(file.file_name)
-    full_file_path = f"{FILE_WRITE_DIRECTORY}/{filename}"
+    full_file_path = os.path.join(FILE_WRITE_DIRECTORY, filename)
     async with aiofiles.open(full_file_path, 'wb') as out_file:
         content = base64.b64decode(file.base64_string)
         await out_file.write(content)
