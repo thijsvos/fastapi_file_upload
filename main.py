@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException, status, UploadFile, File
+from fastapi import FastAPI, Depends, HTTPException, status
 from models import FileModel
 from sqlmodel import Session, SQLModel
 from fastapi.security import OAuth2PasswordBearer
@@ -8,13 +8,14 @@ import base64
 import uvicorn
 import aiofiles
 import os
-import pathlib
 import ntpath
 
 
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 SQLITE_CONN_STRING = 'sqlite:///'+os.path.join(BASE_DIR, 'files.db')
 AUTH_TOKEN = "DUMMY-API-KEY"
+FILE_WRITE_DIRECTORY = f"{BASE_DIR}/results/"
+os.makedirs(os.path.dirname(FILE_WRITE_DIRECTORY), exist_ok=True)
 
 engine = create_engine(SQLITE_CONN_STRING, echo=True)
 session = Session(bind=engine)
@@ -51,8 +52,7 @@ async def write_file_to_database(file: FileModel):
 
 async def write_file_to_disk(file: FileModel):
     filename = ntpath.basename(file.file_name)
-    full_file_path = f"{BASE_DIR}/results/{filename}"
-    os.makedirs(os.path.dirname(full_file_path), exist_ok=True)
+    full_file_path = f"{FILE_WRITE_DIRECTORY}/{filename}"
     async with aiofiles.open(full_file_path, 'wb') as out_file:
         content = base64.b64decode(file.base64_string)
         await out_file.write(content)
