@@ -72,4 +72,5 @@ async def create_a_file(file: FileModel, authenticated: bool = Depends(auth_requ
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=80)
+    uvicorn.run(app, host="0.0.0.0", port=443, ssl_keyfile="./key.pem", ssl_certfile="./cert.pem", ssl_keyfile_password="1234")
+
